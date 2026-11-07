@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/config"
 )
 
 // Run a real subprocess so failures exercise command cancellation and reaping.

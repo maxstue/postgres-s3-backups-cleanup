@@ -17,7 +17,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/config"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager"

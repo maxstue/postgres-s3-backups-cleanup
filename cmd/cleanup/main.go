@@ -11,8 +11,8 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/maxstue/postgres-s3-backups-cleanup/cleanup/internal/cleanup"
-	"github.com/maxstue/postgres-s3-backups-cleanup/cleanup/internal/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/cleanup"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/cleanup/config"
 )
 
 func main() { os.Exit(run()) }

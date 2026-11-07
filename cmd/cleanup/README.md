@@ -1,8 +1,8 @@
-# Backup Cleanup
+# Cleanup
 
-Go job that inventories a dedicated S3-compatible backup bucket, preserves the
-newest `KEEP_MIN` objects, and deletes other objects older than
-`RETENTION_DAYS`. It runs once and exits; Railway Cron controls the schedule.
+Inventories a dedicated S3-compatible backup bucket, preserves the newest
+`KEEP_MIN` objects, and deletes other objects older than `RETENTION_DAYS`.
+Runs once and exits; Railway Cron controls the schedule.
 
 | Variable | Meaning |
 | --- | --- |
@@ -16,22 +16,26 @@ newest `KEEP_MIN` objects, and deletes other objects older than
 | `REGION` | Bucket region; default auto |
 | `AWS_S3_FORCE_PATH_STYLE` | Boolean; default true |
 
-All values are configured through service variables. Invalid settings fail before
-contacting storage. Review preview logs before setting `DRY_RUN=false`.
+Invalid settings fail before contacting storage. Review preview logs before
+setting `DRY_RUN=false`.
 
 Keep the bucket dedicated to backups. Retention applies to every object with a
 key and modification time. All pages are listed before deletion, and the minimum
 applies across the entire bucket. Objects exactly on the retention boundary are
 preserved. A listing failure stops the run before any deletion.
 
-From this directory:
+## Build and run
+
+From the repository root:
 
 ```sh
-go build ./cmd/cleanup
-go vet ./...
-go test ./...
+go build -o bin/cleanup ./cmd/cleanup
+go test ./internal/cleanup/...
+docker build -f docker/cleanup.Dockerfile -t postgres-s3-cleanup .
 ```
 
-Railway root directory: `/cleanup`. No custom start command is needed; the
-[Dockerfile](Dockerfile) provides the entrypoint.
-See the [shared overview](../README.md).
+Railway root directory: `/`.
+`RAILWAY_DOCKERFILE_PATH=docker/cleanup.Dockerfile`.
+The image entrypoint starts the cleanup binary.
+
+See the [repository overview](../../README.md).

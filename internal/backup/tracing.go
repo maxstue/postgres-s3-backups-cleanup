@@ -6,7 +6,7 @@ import (
 
 	awsmiddleware "github.com/aws/aws-sdk-go-v2/aws/middleware"
 	"github.com/aws/smithy-go/middleware"
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/config"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"

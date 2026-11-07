@@ -1,9 +1,8 @@
-# Backup CRON
+# Backup
 
-Go application synchronized from [brody192/pg_backup](https://github.com/brody192/pg_backup)
-through `0b47df8`. It streams a PostgreSQL custom-format dump through parallel
-gzip compression into concurrent S3 multipart uploads, without storing the full
-archive on disk or in memory.
+Streams a PostgreSQL custom-format dump through parallel gzip compression into
+concurrent S3 multipart uploads without storing the full archive on disk or in
+memory.
 
 | Variable | Meaning |
 | --- | --- |
@@ -32,21 +31,25 @@ exporter. `OTEL_SDK_DISABLED=true` or `OTEL_TRACES_EXPORTER=none` disables it.
 
 Spans cover `backup.run`, `pg_dump`, and S3 operations including multipart
 uploads. Credentials, object keys, bucket names, connection URLs and SDK error
-text are omitted from span attributes and events. Only traces are exported;
-metrics/log exporters are not created. Leave automatic instrumentation off.
+text are omitted from span attributes/events. Only traces are exported.
+Leave automatic instrumentation off.
 
-## Build and tests
+## Build and run
 
-From this directory:
+From the repository root:
 
 ```sh
-go build ./cmd/pg_backup
-go vet ./...
-AWS_ACCESS_KEY_ID=fixture AWS_SECRET_ACCESS_KEY=fixture AWS_S3_BUCKET=fixture AWS_S3_REGION=auto BACKUP_DATABASE_URL=postgresql://fixture@localhost/fixture go test ./...
+go build -o bin/backup ./cmd/backup
+go test ./internal/backup/...
+docker build --build-arg PG_VERSION=17 -f docker/backup.Dockerfile -t postgres-s3-backup .
 ```
 
-Required configuration is validated at process initialization, including test
-processes. The test command uses synthetic values only.
+Configuration is loaded explicitly when the application starts. Tests do not
+require real database or S3 credentials.
 
-Railway root directory: `/backup`. Use native Railway Cron.
-See the [shared overview](../README.md) for migration and template settings.
+Railway root directory: `/`.
+`RAILWAY_DOCKERFILE_PATH=docker/backup.Dockerfile`.
+The image entrypoint checks database readiness and starts the backup binary.
+Use native Railway Cron for scheduling.
+
+See the [repository overview](../../README.md).

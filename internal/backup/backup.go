@@ -17,14 +17,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/config"
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/logger"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/logger"
 
 	"github.com/klauspost/pgzip"
 	"github.com/miolini/datacounter"
 )
 
-func RunBackup(ctx context.Context) error {
+func Run(ctx context.Context) error {
 	logger.Stdout.Info("Streaming database backup to S3...")
 	sTime := time.Now()
 

@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/config"
 	"go.opentelemetry.io/otel"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"go.opentelemetry.io/otel/sdk/trace/tracetest"
@@ -67,6 +67,9 @@ func TestS3MultipartTraceAndPathStyle(t *testing.T) {
 	config.AWS.S3Endpoint = "https://storage.internal"
 	config.AWS.S3Bucket = "private-bucket"
 	config.AWS.ForcePathStyle = true
+	config.AWS.AccessKeyID = "fixture"
+	config.AWS.SecretAccessKey = "fixture"
+	config.AWS.S3Region = "auto"
 	exporter := traceRecorder(t)
 	client, err := NewS3Client()
 	if err != nil {

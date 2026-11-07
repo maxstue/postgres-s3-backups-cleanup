@@ -7,10 +7,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/backup"
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/config"
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/logger"
-	"github.com/maxstue/postgres-s3-backups-cleanup/backup/internal/telemetry"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/config"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/logger"
+	"github.com/maxstue/postgres-s3-backups-cleanup/internal/backup/telemetry"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/codes"
@@ -19,6 +19,10 @@ import (
 func main() { os.Exit(run()) }
 
 func run() int {
+	if err := config.Load(); err != nil {
+		logger.Stderr.Error("Invalid backup configuration", logger.ErrAttr(err))
+		return 1
+	}
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	if !config.Backup.RunOnStart {
@@ -47,7 +51,7 @@ func run() int {
 	}
 	logger.Stdout.Info("Access to bucket confirmed")
 	logger.Stdout.Info("Starting backup...")
-	if err := backup.RunBackup(ctx); err != nil {
+	if err := backup.Run(ctx); err != nil {
 		span.SetStatus(codes.Error, "")
 		logger.Stderr.Error("Error while running backup.. Exiting..", logger.ErrAttr(err))
 		return 1
