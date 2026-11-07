@@ -33,7 +33,7 @@ Both services build from the repository root (`/`). Their
 | `RUN_ON_STARTUP` | `true` | Backup CRON → Variables |
 | `GZIP_CONCURRENCY` | `20` | Backup CRON → Variables |
 | `UPLOAD_CONCURRENCY` | `20` | Backup CRON → Variables |
-| `PG_VERSION` | `17` (at least your database server major version) | Backup CRON → Variables |
+| `PG_VERSION` | `18` (at least your database server major version) | Backup CRON → Variables |
 | `RETENTION_DAYS` | `183` | Backup Cleanup → Variables |
 | `KEEP_MIN` | `1` | Backup Cleanup → Variables |
 | `DRY_RUN` | `true` | Backup Cleanup → Variables |
@@ -64,7 +64,7 @@ Build the applications independently:
 go build -o bin/backup ./cmd/backup
 go build -o bin/cleanup ./cmd/cleanup
 
-docker build --build-arg PG_VERSION=17 -f docker/backup.Dockerfile -t postgres-s3-backup .
+docker build --build-arg PG_VERSION=18 -f docker/backup.Dockerfile -t postgres-s3-backup .
 docker build -f docker/cleanup.Dockerfile -t postgres-s3-cleanup .
 ```
 

@@ -16,7 +16,7 @@ memory.
 | `RUN_ON_STARTUP` | Default false; template sets true to run once and exit |
 | `GZIP_CONCURRENCY` | Positive compression worker count; default 20 |
 | `UPLOAD_CONCURRENCY` | Positive upload worker count; default 20 |
-| `PG_VERSION` | Docker build argument; template uses 17, at least the server version |
+| `PG_VERSION` | Docker build argument; template uses 18, at least the server version |
 
 Compression blocks and upload parts are 5 MiB. More workers can improve throughput
 but increase memory use. Credentials must permit listing, uploading and aborting
@@ -41,7 +41,7 @@ From the repository root:
 ```sh
 go build -o bin/backup ./cmd/backup
 go test ./internal/backup/...
-docker build --build-arg PG_VERSION=17 -f docker/backup.Dockerfile -t postgres-s3-backup .
+docker build --build-arg PG_VERSION=18 -f docker/backup.Dockerfile -t postgres-s3-backup .
 ```
 
 Configuration is loaded explicitly when the application starts. Tests do not
