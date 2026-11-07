@@ -115,8 +115,8 @@ func streamBackup(ctx context.Context, newCommand func(context.Context) *exec.Cm
 
 	dump := &dumpInfo{}
 	timeNowUTC := time.Now().UTC()
-	timestamp := timeNowUTC.Format("Mon_02_Jan_2006_15-04-05_MST")
-	dump.basename = fmt.Sprintf("Backup_%s.dump", timestamp)
+	timestamp := timeNowUTC.Format("2006-01-02T15-04-05Z")
+	dump.basename = fmt.Sprintf("backup-%s.dump", timestamp)
 	dump.filename = fmt.Sprintf("%s.gz", dump.basename)
 	attrs := []attribute.KeyValue{
 		attribute.String("db.system", "postgresql"),

@@ -4,6 +4,9 @@ Streams a PostgreSQL custom-format dump through parallel gzip compression into
 concurrent S3 multipart uploads without storing the full archive on disk or in
 memory.
 
+Backup files use the UTC naming scheme `backup-2026-11-07T20-03-15Z.dump.gz`.
+The archive remains a gzip-compressed PostgreSQL custom-format dump.
+
 | Variable | Meaning |
 | --- | --- |
 | `BACKUP_DATABASE_URL` | Required PostgreSQL connection URL |
