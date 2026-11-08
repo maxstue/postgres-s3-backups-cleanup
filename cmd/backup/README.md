@@ -19,7 +19,10 @@ The archive remains a gzip-compressed PostgreSQL custom-format dump.
 | `RUN_ON_STARTUP` | Default false; template sets true to run once and exit |
 | `GZIP_CONCURRENCY` | Positive compression worker count; default 20 |
 | `UPLOAD_CONCURRENCY` | Positive upload worker count; default 20 |
-| `PG_VERSION` | Docker build argument; template uses 18, at least the server version |
+
+The published image includes the PostgreSQL 18 client. `PG_VERSION` is a Docker
+build argument for custom images, not a runtime environment variable. The client
+major version must be at least the database server major version.
 
 Compression blocks and upload parts are 5 MiB. More workers can improve throughput
 but increase memory use. Credentials must permit listing, uploading and aborting
@@ -50,7 +53,8 @@ docker build --build-arg PG_VERSION=18 -f docker/backup.Dockerfile -t postgres-s
 Configuration is loaded explicitly when the application starts. Tests do not
 require real database or S3 credentials.
 
-Railway root directory: `/`.
+The Railway template uses a prebuilt GHCR image; no root directory or Dockerfile
+variable is needed. For custom GitHub-source builds, use root directory `/` and
 `RAILWAY_DOCKERFILE_PATH=docker/backup.Dockerfile`.
 The image entrypoint checks database readiness and starts the backup binary.
 Use native Railway Cron for scheduling.

@@ -34,7 +34,8 @@ go test ./internal/cleanup/...
 docker build -f docker/cleanup.Dockerfile -t postgres-s3-cleanup .
 ```
 
-Railway root directory: `/`.
+The Railway template uses a prebuilt GHCR image; no root directory or Dockerfile
+variable is needed. For custom GitHub-source builds, use root directory `/` and
 `RAILWAY_DOCKERFILE_PATH=docker/cleanup.Dockerfile`.
 The image entrypoint starts the cleanup binary.
 
