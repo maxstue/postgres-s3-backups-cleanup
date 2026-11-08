@@ -73,7 +73,7 @@ See [backup configuration](cmd/backup/README.md) and
 
 ## Acknowledgements
 
-Thanks to [Brody](https://github.com/brody192/pg_backup) and the [original Railway template](https://github.com/railwayapp-templates/postgres-s3-backups) for the foundation of this project.
+Thanks to the maintainers and contributors of [postgres-s3-backups](https://github.com/railwayapp-templates/postgres-s3-backups) for the foundation of this project.
 
 ## Marketplace publication
 
