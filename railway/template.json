@@ -1,0 +1,123 @@
+{
+  "buckets": {
+    "1a752699-6ccd-453a-bfc8-3f965c3b0190": {
+      "name": "Bucket"
+    }
+  },
+  "services": {
+    "32915a15-1dd4-457d-817e-8ea14f36aeca": {
+      "deploy": {
+        "cronSchedule": "0 3 1 1,7 *",
+        "restartPolicyType": "NEVER"
+      },
+      "name": "Backup Cleanup",
+      "source": {
+        "image": "ghcr.io/maxstue/postgres-s3-backups-cleanup-cleanup:2026.11.0"
+      },
+      "variables": {
+        "ACCESS_KEY_ID": {
+          "defaultValue": "${{Bucket.ACCESS_KEY_ID}}",
+          "description": "Generated access key for the backup bucket."
+        },
+        "AWS_S3_FORCE_PATH_STYLE": {
+          "defaultValue": "true",
+          "description": "Use path-style S3 addressing."
+        },
+        "BUCKET": {
+          "defaultValue": "${{Bucket.BUCKET}}",
+          "description": "Dedicated bucket shared with Backup CRON."
+        },
+        "DRY_RUN": {
+          "defaultValue": "true",
+          "description": "Preview only. Set false after reviewing logs to enable deletion."
+        },
+        "ENDPOINT": {
+          "defaultValue": "${{Bucket.ENDPOINT}}",
+          "description": "S3-compatible bucket endpoint."
+        },
+        "KEEP_MIN": {
+          "defaultValue": "1",
+          "description": "Always preserve this many newest backups, even when expired."
+        },
+        "REGION": {
+          "defaultValue": "auto",
+          "description": "S3-compatible bucket region."
+        },
+        "RETENTION_DAYS": {
+          "defaultValue": "183",
+          "description": "Delete backups older than this many days; positive integer."
+        },
+        "SECRET_ACCESS_KEY": {
+          "defaultValue": "${{Bucket.SECRET_ACCESS_KEY}}",
+          "description": "Generated secret for the backup bucket."
+        }
+      }
+    },
+    "bd3078bf-3032-4a86-83d7-e55821abe949": {
+      "deploy": {
+        "cronSchedule": "0 2 1 * *",
+        "restartPolicyType": "NEVER"
+      },
+      "name": "Backup CRON",
+      "source": {
+        "image": "ghcr.io/maxstue/postgres-s3-backups-cleanup-backup:2026.11.0"
+      },
+      "variables": {
+        "AWS_ACCESS_KEY_ID": {
+          "defaultValue": "${{Bucket.ACCESS_KEY_ID}}",
+          "description": "Generated bucket access key reference.",
+          "isOptional": false
+        },
+        "AWS_S3_BUCKET": {
+          "defaultValue": "${{Bucket.BUCKET}}",
+          "description": "Dedicated backup bucket shared with Cleanup.",
+          "isOptional": false
+        },
+        "AWS_S3_ENDPOINT": {
+          "defaultValue": "${{Bucket.ENDPOINT}}",
+          "description": "Optional custom S3-compatible endpoint.",
+          "isOptional": true
+        },
+        "AWS_S3_FORCE_PATH_STYLE": {
+          "defaultValue": "true",
+          "description": "Path-style addressing for the Railway bucket."
+        },
+        "AWS_S3_REGION": {
+          "defaultValue": "auto",
+          "description": "Region required by the S3 provider.",
+          "isOptional": false
+        },
+        "AWS_SECRET_ACCESS_KEY": {
+          "defaultValue": "${{Bucket.SECRET_ACCESS_KEY}}",
+          "description": "Generated bucket secret reference.",
+          "isOptional": false
+        },
+        "BACKUP_DATABASE_URL": {
+          "defaultValue": "",
+          "description": "Required PostgreSQL connection URL; use the existing database service DATABASE_URL reference.",
+          "isOptional": false
+        },
+        "GZIP_CONCURRENCY": {
+          "defaultValue": "20",
+          "description": "Positive number of gzip workers; more workers use more memory."
+        },
+        "OTEL_LOGS_EXPORTER": {
+          "defaultValue": "none",
+          "description": "Logs are written to stdout/stderr for Railway."
+        },
+        "OTEL_METRICS_EXPORTER": {
+          "defaultValue": "none",
+          "description": "This job exports traces only."
+        },
+        "RUN_ON_STARTUP": {
+          "defaultValue": "true",
+          "description": "Run once and exit. Native Railway Cron controls scheduling."
+        },
+        "UPLOAD_CONCURRENCY": {
+          "defaultValue": "20",
+          "description": "Positive number of S3 upload workers; more workers use more memory."
+        }
+      }
+    }
+  }
+}

@@ -35,6 +35,7 @@ build the Go applications. Both services use the same fixed release version:
 These are image sources, not additional services. Variables, cron schedules and
 the bucket are still provisioned by the template. GitHub Actions tests and
 publishes the images; Railway deployments are independent of repository CI.
+The version-controlled template definition is [railway/template.json](railway/template.json).
 
 | Setting | Template default | Where to change it |
 | --- | --- | --- |
@@ -113,7 +114,8 @@ behavior, and provide migration instructions. Review them before upgrading.
    settings. New packages may be private even when their repository is public.
    Verify that both images can be pulled without authentication before using them
    in the public Railway template.
-5. Update both image sources in the Railway template to the tested release tag,
+5. Update both image sources in [railway/template.json](railway/template.json)
+   and the Railway template editor to the tested release tag,
    then publish the template changes. Existing installations are not migrated
    automatically by editing the template.
 
@@ -143,4 +145,9 @@ Thanks to the maintainers and contributors of [postgres-s3-backups](https://gith
 
 In the Railway template editor, open **Marketplace**, review the listing, apply
 any pending changes, then click **Publish to marketplace**.
+Use [railway/template.json](railway/template.json) for the service and bucket
+configuration and [railway/MARKETPLACE.md](railway/MARKETPLACE.md) for the listing.
+Committing these files does not update the marketplace; apply and publish the
+editor changes separately. The public API/CLI publication command updates listing
+metadata, not the template's service sources.
 See [Railway's guide](https://docs.railway.com/templates/publish-and-share).
