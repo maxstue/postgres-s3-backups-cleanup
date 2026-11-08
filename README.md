@@ -143,8 +143,10 @@ Thanks to the maintainers and contributors of [postgres-s3-backups](https://gith
 
 ## Marketplace publication
 
-In the Railway template editor, open **Marketplace**, review the listing, apply
-any pending changes, then click **Publish to marketplace**.
+In the Railway template editor, open **Marketplace** and review the listing.
+Apply pending changes with **Apply** (`Shift+Enter`). For an already published
+template, this updates the public template immediately; initial publication uses
+**Publish to marketplace**.
 Use [railway/template.json](railway/template.json) for the service and bucket
 configuration and [railway/MARKETPLACE.md](railway/MARKETPLACE.md) for the listing.
 Committing these files does not update the marketplace; apply and publish the

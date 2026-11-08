@@ -8,11 +8,13 @@
     "32915a15-1dd4-457d-817e-8ea14f36aeca": {
       "deploy": {
         "cronSchedule": "0 3 1 1,7 *",
-        "restartPolicyType": "NEVER"
+        "startCommand": ""
       },
       "name": "Backup Cleanup",
       "source": {
-        "image": "ghcr.io/maxstue/postgres-s3-backups-cleanup-cleanup:2026.11.0"
+        "image": "ghcr.io/maxstue/postgres-s3-backups-cleanup-cleanup:2026.11.0",
+        "repo": null,
+        "rootDirectory": null
       },
       "variables": {
         "ACCESS_KEY_ID": {
@@ -54,13 +56,19 @@
       }
     },
     "bd3078bf-3032-4a86-83d7-e55821abe949": {
+      "build": {},
       "deploy": {
-        "cronSchedule": "0 2 1 * *",
-        "restartPolicyType": "NEVER"
+        "cronSchedule": "0 2 1 * *"
       },
       "name": "Backup CRON",
+      "networking": {
+        "serviceDomains": {},
+        "tcpProxies": {}
+      },
       "source": {
-        "image": "ghcr.io/maxstue/postgres-s3-backups-cleanup-backup:2026.11.0"
+        "image": "ghcr.io/maxstue/postgres-s3-backups-cleanup-backup:2026.11.0",
+        "repo": null,
+        "rootDirectory": null
       },
       "variables": {
         "AWS_ACCESS_KEY_ID": {
@@ -117,7 +125,8 @@
           "defaultValue": "20",
           "description": "Positive number of S3 upload workers; more workers use more memory."
         }
-      }
+      },
+      "volumeMounts": {}
     }
   }
 }

@@ -3,7 +3,7 @@
 Back up an existing PostgreSQL database to S3-compatible storage with two
 independent, versioned Go applications and a dedicated Railway bucket.
 
-## What is included
+## About Hosting Postgres S3 Backups with Cleanup
 
 - **Backup CRON** streams a PostgreSQL dump through parallel gzip compression to
   S3 multipart uploads. Image:
@@ -17,7 +17,13 @@ independent, versioned Go applications and a dedicated Railway bucket.
 The public images support Linux amd64 and arm64. No GitHub source connection,
 repository fork, registry login, or build configuration is required.
 
-## Setup
+## Common Use Cases
+
+- Scheduled logical backups of an existing PostgreSQL database.
+- S3-compatible storage with configurable retention and minimum preservation.
+- Deliberate upgrades using fixed container versions and backup tracing.
+
+## Dependencies for Postgres S3 Backups with Cleanup Hosting
 
 Deploy into the project containing your PostgreSQL database. Set
 `BACKUP_DATABASE_URL` to its connection URL, for example
@@ -70,6 +76,13 @@ Backup supports OpenTelemetry. Enable Railway tracing on **Backup CRON** and lea
 automatic instrumentation off. The SDK reads Railway's OTLP configuration and
 flushes its traces before exit. Cleanup writes structured logs. Credentials,
 connection URLs and backup object keys are not added to span attributes.
+
+## Why Deploy Postgres S3 Backups with Cleanup on Railway?
+
+Railway schedules both jobs and provisions their shared bucket. Public, prebuilt
+images keep installations independent of the source repository's deployment
+integration; generated variable references wire up storage without credentials
+in source control.
 
 ## Source and acknowledgements
 
